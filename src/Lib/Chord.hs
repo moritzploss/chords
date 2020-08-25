@@ -4,6 +4,7 @@ module Lib.Chord
     addMajorSeventh,
     addMinorThird,
     addMinorSeventh,
+    addNote,
     addPerfectFifth,
     addRoot,
     base,
