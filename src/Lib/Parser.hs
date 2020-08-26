@@ -1,38 +1,35 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Lib.Parser (parse, toMatch) where
+module Lib.Parser (parse, asMatch, asChord) where
 
 import qualified Lib.Catalogue as Cat
-import Lib.Chord (Chord, transpose)
-import Lib.Types (PitchClass)
-import Text.Regex.PCRE.Heavy
+import Lib.Chord (Chord (Chord))
+import qualified Lib.Chord as Chord
+import qualified Lib.PitchClass as Pitch
+import Lib.Types (Note, PitchClass)
+import qualified Text.Regex.PCRE.Heavy as RegEx
 
-base :: String -> PitchClass
-base "C" = 0
-base "D" = 2
-base "E" = 4
-base "F" = 5
-base "G" = 7
-base "A" = 9
-base "B" = 11
-
-regex :: Regex
-regex = [re|(#|b){0,1}([A,B,C,D,E,F,G]{1})(maj|dom|m{0,1})([6,7,9]{0,1})|]
-
-toMatch :: String -> Maybe [String]
-toMatch chord = case scan regex chord of
-  [("", _)] -> Nothing
-  [(_, matches)] -> Just matches
-
-toChord :: [String] -> Maybe Chord
-toChord matches = case matches of
-  ("#" : tail) -> transposeTail 1 tail
-  ("b" : tail) -> transposeTail (-1) tail
-  ["", root, _, "7"] -> Just $ Cat.majorSeventh $ base root
-  [_, root, _, _] -> Just $ Cat.major $ base root
+asMatch :: String -> Maybe [String]
+asMatch chord = case RegEx.scan regex chord !! 0 of
+  ("", _) -> Nothing
+  (_, match) -> Just match
   where
-    transposeTail i tail = fmap (transpose i) $ parse $ concat tail
+    regex = [RegEx.re|([A-G]{1})(#|b?)(maj|dom|m?)([6,7,9]?)(?:\/([A-G]))?|]
+
+rebase :: String -> String -> Maybe Chord
+rebase root chord = Chord.rebase <$> Pitch.fromString root <*> (parse chord)
+
+transpose :: Note -> [String] -> Maybe Chord
+transpose interval = fmap (Chord.transpose interval) . parse . concat
+
+asChord :: [String] -> Maybe Chord
+asChord matches = case matches of
+  (root : "#" : tail) -> transpose 1 (root : tail)
+  (root : "b" : tail) -> transpose (-1) (root : tail)
+  match@[_, _, _, _, root] -> rebase root $ concat $ init match
+  [root, _, "7", _] -> Cat.majorSeventh <$> Pitch.fromString root
+  [root, _, _, _] -> Cat.major <$> Pitch.fromString root
 
 parse :: String -> Maybe Chord
-parse chord = toMatch chord >>= toChord
+parse chord = asMatch chord >>= asChord
