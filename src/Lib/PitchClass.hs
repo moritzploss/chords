@@ -1,7 +1,7 @@
 module Lib.PitchClass
   ( wrap,
     transpose,
-    fromString,
+    fromName,
   )
 where
 
@@ -13,8 +13,8 @@ wrap pitchClass = pitchClass `mod` 12
 transpose :: Interval -> PitchClass -> PitchClass
 transpose interval pitchClass = wrap $ interval + pitchClass
 
-fromString :: String -> Maybe PitchClass
-fromString string = case string of
+fromName :: String -> Maybe PitchClass
+fromName string = case string of
   "C" -> Just 0
   "D" -> Just 2
   "E" -> Just 4

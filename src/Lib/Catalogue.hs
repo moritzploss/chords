@@ -1,5 +1,6 @@
 module Lib.Catalogue
-  ( dominantSeventh,
+  ( dominant,
+    dominantSeventh,
     major,
     majorSeventh,
     minor,
@@ -16,6 +17,9 @@ minor = Chord.addRoot . Chord.addMinorThird . Chord.addPerfectFifth . Chord.base
 
 major :: PitchClass -> Chord
 major = Chord.addRoot . Chord.addMajorThird . Chord.addPerfectFifth . Chord.base
+
+dominant :: PitchClass -> Chord
+dominant = major
 
 dominantSeventh :: PitchClass -> Chord
 dominantSeventh = Chord.addMinorSeventh . major
