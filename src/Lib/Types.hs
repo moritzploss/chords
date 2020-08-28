@@ -1,10 +1,16 @@
 module Lib.Types
-  ( PitchClass (..),
+  ( Added (..),
+    ChordPattern (..),
+    PitchClass (..),
     Interval (..),
     Note (..),
     NoteName (..),
   )
 where
+
+type Added = String
+
+type ChordPattern = String
 
 type PitchClass = Int
 

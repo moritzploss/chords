@@ -1,9 +1,9 @@
-module Spec.Parser (spec) where
+module Spec.Parse (spec) where
 
 import Control.Applicative
 import Data.Maybe (fromJust)
 import qualified Lib.Chord as Chord
-import Lib.Parser (asMatch, parse)
+import Lib.Parse (match, parse)
 import Test.Hspec
 
 spec :: Spec
@@ -11,13 +11,13 @@ spec = do
   describe "Chord Parser" $ do
     describe "match" $ do
       it "major chord" $
-        fromJust (asMatch "C") `shouldBe` ["C", "", "", ""]
+        fromJust (match "C") `shouldBe` ["C", "", "", ""]
       it "sharp chord" $
-        fromJust (asMatch "F#/A") `shouldBe` ["F", "#", "", "", "A"]
+        fromJust (match "F#/A") `shouldBe` ["F", "#", "", "", "A"]
       it "flat chord" $
-        fromJust (asMatch "Dbmaj9") `shouldBe` ["D", "b", "maj", "9"]
+        fromJust (match "Dbmaj9") `shouldBe` ["D", "b", "maj", "9"]
       it "all together now" $
-        fromJust (asMatch "Dbmaj9/G") `shouldBe` ["D", "b", "maj", "9", "G"]
+        fromJust (match "Dbmaj9/G") `shouldBe` ["D", "b", "maj", "9", "G"]
 
     describe "parse" $ do
       it "major chord" $
