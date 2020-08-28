@@ -1,7 +1,7 @@
 module Spec.Parse (spec) where
 
 import Control.Applicative
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust, isNothing)
 import qualified Lib.Chord as Chord
 import Lib.Parse (match, parse)
 import Test.Hspec
@@ -19,7 +19,7 @@ spec = do
       it "all together now" $
         fromJust (match "Dbmaj9/G") `shouldBe` ["D", "b", "maj", "9", "G"]
 
-    describe "parse" $ do
+    describe "parse success" $ do
       it "major chord" $
         fromJust (parse "C") `shouldBe` Chord.create 0 [0, 4, 7]
       it "sharp chord" $
@@ -28,3 +28,13 @@ spec = do
         fromJust (parse "Cb") `shouldBe` Chord.create 11 [0, 4, 7]
       it "slash chord" $
         fromJust (parse "D/E") `shouldBe` Chord.create 4 [2, 5, 10]
+
+    describe "parse failure" $ do
+      it "unknown note" $
+        isNothing (parse "H") `shouldBe` True
+      it "sharp in wrong position" $
+        isNothing (parse "#C") `shouldBe` True
+      it "sharp and flat" $
+        isNothing (parse "C#b") `shouldBe` True
+      it "unknown chord type" $
+        isNothing (parse "Cmo") `shouldBe` True

@@ -14,11 +14,12 @@ import qualified Text.Regex.PCRE.Heavy as Regex
 type RegexMatch = [String]
 
 match :: ChordPattern -> Maybe RegexMatch
-match pattern = case Regex.scan regex pattern !! 0 of
-  ("", _) -> Nothing
-  (_, match) -> Just match
+match pattern = case Regex.scan regex pattern of
+  [] -> Nothing
+  [("", _)] -> Nothing
+  [(_, match)] -> Just match
   where
-    regex = [Regex.re|([A-G]{1})(#|b?)(M|maj|dim|min|m?)([6,7,9]?)(?:\/([A-G]))?|]
+    regex = [Regex.re|(^[A-G]{1})(#|b?)(M|maj|dim|min|m?)([6,7,9]?)(?:\/([A-G]))?$|]
 
 rebase :: NoteName -> ChordPattern -> Maybe Chord
 rebase name pattern = Chord.rebase <$> Pitch.fromName name <*> (parse pattern)
