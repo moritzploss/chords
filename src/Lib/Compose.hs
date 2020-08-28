@@ -12,6 +12,12 @@ minor added root = case added of
   "7" -> Just $ Catalogue.minorSeventh root
   _ -> Nothing
 
+diminished :: Added -> PitchClass -> Maybe Chord
+diminished added root = case added of
+  "" -> Just $ Catalogue.diminished root
+  "7" -> Just $ Catalogue.diminished root
+  _ -> Nothing
+
 major :: Added -> PitchClass -> Maybe Chord
 major added root = case added of
   "" -> Just $ Catalogue.major root
@@ -29,6 +35,7 @@ compose chordType added root
   | chordType `elem` ["", "dom", "dominant"] = composeType dominant
   | chordType `elem` ["M", "maj", "major"] = composeType major
   | chordType `elem` ["m", "min", "minor"] = composeType minor
+  | chordType `elem` ["o", "dim", "diminished"] = composeType diminished
   | otherwise = Nothing
   where
     composeType chordFunc = chordFunc added root

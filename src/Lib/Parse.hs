@@ -19,7 +19,7 @@ match pattern = case Regex.scan regex pattern of
   [("", _)] -> Nothing
   [(_, match)] -> Just match
   where
-    regex = [Regex.re|(^[A-G]{1})(#|b?)(M|maj|dim|min|m?)([6,7,9]?)(?:\/([A-G]))?$|]
+    regex = [Regex.re|^([A-G]{1})(#|b)?(M|major|maj|o|diminished|dim|minor|min|m|dominant|dom)?(6|7|9?)(?:\/([A-G]))?$|]
 
 rebase :: NoteName -> ChordPattern -> Maybe Chord
 rebase name pattern = Chord.rebase <$> Pitch.fromName name <*> (parse pattern)

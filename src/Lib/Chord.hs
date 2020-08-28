@@ -6,6 +6,7 @@ module Lib.Chord
     addMinorSeventh,
     addNote,
     addPerfectFifth,
+    addDiminishedFifth,
     addRoot,
     base,
     create,
@@ -60,6 +61,9 @@ addMinorThird = addNote 3
 
 addMajorThird :: Chord -> Chord
 addMajorThird = addNote 4
+
+addDiminishedFifth :: Chord -> Chord
+addDiminishedFifth = addNote 6
 
 addPerfectFifth :: Chord -> Chord
 addPerfectFifth = addNote 7
