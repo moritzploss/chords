@@ -11,13 +11,15 @@ spec = do
   describe "Chord Parser" $ do
     describe "match" $ do
       it "major chord" $
-        fromJust (match "C") `shouldBe` ["C", "", "", ""]
+        fromJust (match "C") `shouldBe` ["C", "", ""]
       it "sharp chord" $
-        fromJust (match "F#/A") `shouldBe` ["F", "#", "", "", "A"]
+        fromJust (match "F#/A") `shouldBe` ["F#", "", "", "A"]
       it "flat chord" $
-        fromJust (match "Dbmaj9") `shouldBe` ["D", "b", "maj", "9"]
+        fromJust (match "Dbmaj9") `shouldBe` ["Db", "maj", "9"]
+      it "slash chord" $
+        fromJust (match "Dbmaj9/F") `shouldBe` ["Db", "maj", "9", "F"]
       it "all together now" $
-        fromJust (match "Dbmaj9/G") `shouldBe` ["D", "b", "maj", "9", "G"]
+        fromJust (match "Dbo9/G#") `shouldBe` ["Db", "o", "9", "G#"]
 
     describe "parse mixed" $ do
       it "major chord" $
@@ -46,6 +48,8 @@ spec = do
         fromJust (parse "Cmaj") `shouldBe` Chord.create 0 [0, 4, 7]
       it "major chord with major" $
         fromJust (parse "Cmajor") `shouldBe` Chord.create 0 [0, 4, 7]
+      it "major seventh chord" $
+        fromJust (parse "CM7") `shouldBe` Chord.create 0 [0, 4, 7, 11]
 
     describe "minor chords" $ do
       it "minor chord with m" $
@@ -54,6 +58,8 @@ spec = do
         fromJust (parse "Cmin") `shouldBe` Chord.create 0 [0, 3, 7]
       it "minor chord with minor" $
         fromJust (parse "Cminor") `shouldBe` Chord.create 0 [0, 3, 7]
+      it "minor seventh chord" $
+        fromJust (parse "Cm7") `shouldBe` Chord.create 0 [0, 3, 7, 10]
 
     describe "dominant chords" $ do
       it "dominant chord" $
@@ -62,11 +68,15 @@ spec = do
         fromJust (parse "Cdom") `shouldBe` Chord.create 0 [0, 4, 7]
       it "dominant chord with dominant" $
         fromJust (parse "Cdominant") `shouldBe` Chord.create 0 [0, 4, 7]
+      it "dominant seventh chord" $
+        fromJust (parse "C7") `shouldBe` Chord.create 0 [0, 4, 7, 10]
 
     describe "diminished chords" $ do
       it "diminished chord with o" $
         fromJust (parse "Co") `shouldBe` Chord.create 0 [0, 3, 6]
-      it "dominant chord with dim" $
+      it "diminished chord with dim" $
         fromJust (parse "Cdim") `shouldBe` Chord.create 0 [0, 3, 6]
-      it "dominant chord with diminished" $
+      it "diminished chord with diminished" $
         fromJust (parse "Cdiminished") `shouldBe` Chord.create 0 [0, 3, 6]
+      it "diminished seventh chord" $
+        fromJust (parse "Co7") `shouldBe` Chord.create 0 [0, 3, 6, 9]

@@ -16,7 +16,7 @@ composeMinor factor root = case factor of
 composeDiminished :: Factor -> PitchClass -> Maybe Chord
 composeDiminished factor root = case factor of
   "" -> Just $ diminished root
-  "7" -> Just $ diminished root
+  "7" -> Just $ (Chord.addDiminishedSeventh . diminished) root
   _ -> Nothing
 
 composeMajor :: Factor -> PitchClass -> Maybe Chord

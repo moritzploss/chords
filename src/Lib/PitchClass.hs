@@ -22,4 +22,6 @@ fromName string = case string of
   "G" -> Just 7
   "A" -> Just 9
   "B" -> Just 11
+  [note, '#'] -> transpose (1) <$> fromName [note]
+  [note, 'b'] -> transpose (-1) <$> fromName [note]
   _ -> Nothing
