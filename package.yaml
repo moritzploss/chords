@@ -24,6 +24,8 @@ dependencies:
 - hspec == 2.7.*
 - containers == 0.6.*
 - pcre-heavy
+- pcre-light
+- bytestring
 
 library:
   source-dirs: src

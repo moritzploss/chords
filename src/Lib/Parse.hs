@@ -3,6 +3,7 @@
 
 module Lib.Parse (parse, match, toChord) where
 
+import qualified Data.ByteString.Char8 as Char8
 import qualified Lib.Catalogue as Catalogue
 import Lib.Chord (Chord)
 import qualified Lib.Chord as Chord
@@ -10,8 +11,12 @@ import qualified Lib.Compose as Compose
 import qualified Lib.PitchClass as Pitch
 import Lib.Types (ChordPattern, Interval, Note, NoteName, PitchClass)
 import qualified Text.Regex.PCRE.Heavy as Regex
+import qualified Text.Regex.PCRE.Light as PCRE
 
 type RegexMatch = [String]
+
+asRegex :: String -> PCRE.Regex
+asRegex string = PCRE.compile (Char8.pack string) []
 
 match :: ChordPattern -> Maybe RegexMatch
 match pattern = case Regex.scan regex pattern of
@@ -19,7 +24,11 @@ match pattern = case Regex.scan regex pattern of
   [("", _)] -> Nothing
   [(_, match)] -> Just match
   where
-    regex = [Regex.re|^([A-G]{1}(?:#|b)?)(M|major|maj|o|diminished|dim|minor|min|m|dominant|dom)?(6|7|9?)(?:\/([A-G](?:#|b)?))?$|]
+    regex = asRegex $ "^" ++ root ++ chordType ++ addedFactor ++ slash ++ "$"
+    root = "([A-G]{1}(?:#|b)?)"
+    chordType = "(M|major|maj|o|diminished|dim|minor|min|m|dominant|dom)?"
+    addedFactor = "(6|7|9?)"
+    slash = "(?:/" ++ root ++ ")?"
 
 rebase :: NoteName -> ChordPattern -> Maybe Chord
 rebase name pattern = Chord.rebase <$> Pitch.fromName name <*> (parse pattern)
