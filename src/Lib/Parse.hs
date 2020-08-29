@@ -4,12 +4,11 @@
 module Lib.Parse (parse, match, toChord) where
 
 import qualified Data.ByteString.Char8 as Char8
-import qualified Lib.Catalogue as Catalogue
 import Lib.Chord (Chord)
 import qualified Lib.Chord as Chord
 import qualified Lib.Compose as Compose
 import qualified Lib.PitchClass as Pitch
-import Lib.Types (ChordPattern, Interval, Note, NoteName, PitchClass)
+import Lib.Types (ChordPattern, Interval, NoteName)
 import qualified Text.Regex.PCRE.Heavy as Regex
 import qualified Text.Regex.PCRE.Light as PCRE
 
