@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module Lib.Parse (parse, match, toChord) where
+module Lib.Parse (parse, asMatch, toChord) where
 
 import qualified Data.ByteString.Char8 as Char8
 import Lib.Chord (Chord)
@@ -17,8 +17,8 @@ type RegexMatch = [String]
 asRegex :: String -> PCRE.Regex
 asRegex string = PCRE.compile (Char8.pack string) []
 
-match :: ChordPattern -> Maybe RegexMatch
-match pattern = case Regex.scan regex pattern of
+asMatch :: ChordPattern -> Maybe RegexMatch
+asMatch pattern = case Regex.scan regex pattern of
   [] -> Nothing
   [("", _)] -> Nothing
   [(_, match)] -> Just match
@@ -29,17 +29,16 @@ match pattern = case Regex.scan regex pattern of
     addedFactor = "(6|7|9?)"
     slash = "(?:/" ++ root ++ ")?"
 
-rebase :: NoteName -> ChordPattern -> Maybe Chord
-rebase name pattern = Chord.rebase <$> Pitch.fromName name <*> (parse pattern)
-
-transpose :: Interval -> RegexMatch -> Maybe Chord
-transpose interval = fmap (Chord.transpose interval) . parse . concat
+rebase :: NoteName -> Maybe Chord -> Maybe Chord
+rebase name chord = Chord.rebase <$> Pitch.fromName name <*> chord
 
 toChord :: RegexMatch -> Maybe Chord
-toChord matches = case matches of
-  match@[_, _, _, root] -> rebase root $ concat $ init match
-  [root, chordType, factor] -> Pitch.fromName root >>= Compose.compose chordType factor
+toChord match = case match of
+  [_, _, _, slash] -> rebase slash $ compose $ init match
+  [_, _, _] -> compose match
   _ -> Nothing
+  where
+    compose [root, chordType, factor] = Pitch.fromName root >>= Compose.compose chordType factor
 
 parse :: ChordPattern -> Maybe Chord
-parse pattern = match pattern >>= toChord
+parse pattern = asMatch pattern >>= toChord
