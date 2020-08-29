@@ -1,41 +1,42 @@
 module Lib.Compose (compose) where
 
-import qualified Lib.Catalogue as Catalogue
+import Lib.Catalogue (diminished, dominant, major, minor)
 import Lib.Chord (Chord)
-import Lib.Types (Added, PitchClass)
+import qualified Lib.Chord as Chord
+import Lib.Types (Factor, PitchClass)
 
 type ChordType = String
 
-minor :: Added -> PitchClass -> Maybe Chord
-minor added root = case added of
-  "" -> Just $ Catalogue.minor root
-  "7" -> Just $ Catalogue.minorSeventh root
+composeMinor :: Factor -> PitchClass -> Maybe Chord
+composeMinor factor root = case factor of
+  "" -> Just $ minor root
+  "7" -> Just $ (Chord.addMinorSeventh . minor) root
   _ -> Nothing
 
-diminished :: Added -> PitchClass -> Maybe Chord
-diminished added root = case added of
-  "" -> Just $ Catalogue.diminished root
-  "7" -> Just $ Catalogue.diminished root
+composeDiminished :: Factor -> PitchClass -> Maybe Chord
+composeDiminished factor root = case factor of
+  "" -> Just $ diminished root
+  "7" -> Just $ diminished root
   _ -> Nothing
 
-major :: Added -> PitchClass -> Maybe Chord
-major added root = case added of
-  "" -> Just $ Catalogue.major root
-  "7" -> Just $ Catalogue.majorSeventh root
+composeMajor :: Factor -> PitchClass -> Maybe Chord
+composeMajor factor root = case factor of
+  "" -> Just $ major root
+  "7" -> Just $ (Chord.addMajorSeventh . major) root
   _ -> Nothing
 
-dominant :: Added -> PitchClass -> Maybe Chord
-dominant added root = case added of
-  "" -> Just $ Catalogue.dominant root
-  "7" -> Just $ Catalogue.dominantSeventh root
+composeDominant :: Factor -> PitchClass -> Maybe Chord
+composeDominant factor root = case factor of
+  "" -> Just $ dominant root
+  "7" -> Just $ (Chord.addMinorSeventh . major) root
   _ -> Nothing
 
-compose :: ChordType -> Added -> PitchClass -> Maybe Chord
-compose chordType added root
-  | chordType `elem` ["", "dom", "dominant"] = composeType dominant
-  | chordType `elem` ["M", "maj", "major"] = composeType major
-  | chordType `elem` ["m", "min", "minor"] = composeType minor
-  | chordType `elem` ["o", "dim", "diminished"] = composeType diminished
+compose :: ChordType -> Factor -> PitchClass -> Maybe Chord
+compose chordType factor root
+  | chordType `elem` ["", "dom", "dominant"] = composeType composeDominant
+  | chordType `elem` ["M", "maj", "major"] = composeType composeMajor
+  | chordType `elem` ["m", "min", "minor"] = composeType composeMinor
+  | chordType `elem` ["o", "dim", "diminished"] = composeType composeDiminished
   | otherwise = Nothing
   where
-    composeType chordFunc = chordFunc added root
+    composeType chordFunc = chordFunc factor root

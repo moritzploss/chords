@@ -32,7 +32,7 @@ toChord matches = case matches of
   match@[_, _, _, _, root] -> rebase root $ concat $ init match
   (root : "#" : tail) -> transpose 1 (root : tail)
   (root : "b" : tail) -> transpose (-1) (root : tail)
-  [root, "", chordType, added] -> Pitch.fromName root >>= Compose.compose chordType added
+  [root, "", chordType, factor] -> Pitch.fromName root >>= Compose.compose chordType factor
   _ -> Nothing
 
 parse :: ChordPattern -> Maybe Chord

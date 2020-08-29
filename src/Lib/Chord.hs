@@ -1,13 +1,14 @@
 module Lib.Chord
   ( Chord (Chord),
-    addMajorThird,
-    addMajorSeventh,
-    addMinorThird,
-    addMinorSeventh,
-    addNote,
-    addPerfectFifth,
-    addDiminishedFifth,
     addRoot,
+    addMinorNinth,
+    addMajorNinth,
+    addMinorThird,
+    addMajorThird,
+    addDiminishedFifth,
+    addPerfectFifth,
+    addMinorSeventh,
+    addMajorSeventh,
     base,
     create,
     transpose,
@@ -50,26 +51,38 @@ rebase note chord =
 base :: PitchClass -> Chord
 base pitchClass = create pitchClass []
 
-addNote :: Note -> Chord -> Chord
-addNote note chord = chord {notes = IntSet.insert (PitchClass.wrap note) $ notes chord}
+add :: Note -> Chord -> Chord
+add note chord = chord {notes = IntSet.insert (PitchClass.wrap note) $ notes chord}
 
 addRoot :: Chord -> Chord
-addRoot = addNote 0
+addRoot = add 0
+
+addMinorNinth :: Chord -> Chord
+addMinorNinth = add 1
+
+addMajorNinth :: Chord -> Chord
+addMajorNinth = add 2
 
 addMinorThird :: Chord -> Chord
-addMinorThird = addNote 3
+addMinorThird = add 3
 
 addMajorThird :: Chord -> Chord
-addMajorThird = addNote 4
+addMajorThird = add 4
 
 addDiminishedFifth :: Chord -> Chord
-addDiminishedFifth = addNote 6
+addDiminishedFifth = add 6
 
 addPerfectFifth :: Chord -> Chord
-addPerfectFifth = addNote 7
+addPerfectFifth = add 7
+
+addMinorSixth :: Chord -> Chord
+addMinorSixth = add 8
+
+addMajorSixth :: Chord -> Chord
+addMajorSixth = add 9
 
 addMinorSeventh :: Chord -> Chord
-addMinorSeventh = addNote 10
+addMinorSeventh = add 10
 
 addMajorSeventh :: Chord -> Chord
-addMajorSeventh = addNote 11
+addMajorSeventh = add 11

@@ -1,5 +1,5 @@
 module Lib.Types
-  ( Added (..),
+  ( Factor (..),
     ChordPattern (..),
     PitchClass (..),
     Interval (..),
@@ -8,7 +8,7 @@ module Lib.Types
   )
 where
 
-type Added = String
+type Factor = String
 
 type ChordPattern = String
 
