@@ -20,12 +20,15 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/moritzploss/chords#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- hspec == 2.7.*
-- containers == 0.6.*
+- base
+- hspec
+- containers
 - pcre-heavy
 - pcre-light
 - bytestring
+- Spock
+- aeson
+- text
 
 library:
   source-dirs: src

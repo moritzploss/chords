@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
+
 module Lib.Chord
   ( Chord (Chord),
     addRoot,
@@ -17,6 +19,8 @@ module Lib.Chord
   )
 where
 
+import GHC.Generics
+import Data.Aeson (ToJSON, FromJSON)
 import Data.IntSet (IntSet (..))
 import qualified Data.IntSet as IntSet
 import qualified Lib.PitchClass as PitchClass
@@ -26,7 +30,7 @@ data Chord = Chord
   { pitchClass :: PitchClass,
     notes :: IntSet
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic, ToJSON, FromJSON)
 
 create :: PitchClass -> [Note] -> Chord
 create pitchClass notes =

@@ -1,6 +1,3 @@
-module Lib
-    ( someFunc
-    ) where
+module Lib ( parse ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Lib.Parse (parse)
