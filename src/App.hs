@@ -12,7 +12,10 @@ import GHC.Generics
 
 import qualified Lib
 
-data JsonBody = JsonBody { chord :: String } deriving (Generic, ToJSON, FromJSON)
+data JsonBody = JsonBody {
+  transpose :: Int,
+  chord :: String
+  } deriving (Generic, ToJSON, FromJSON)
 
 type Api = SpockM () () () ()
 
@@ -25,6 +28,6 @@ main = do
 
 app :: Api
 app = do
-  post "chord" $ do
+  post "chords" $ do
     body <- jsonBody' :: ApiAction JsonBody
-    json $ Lib.parse $ chord body
+    json $ Lib.transpose (transpose body) <$> (Lib.parse $ chord body)
