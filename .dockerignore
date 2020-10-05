@@ -1,0 +1,5 @@
+homely.cabal
+.stack-work/
+.env
+.env.mock
+.env.docker

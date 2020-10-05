@@ -4,7 +4,7 @@
 
 A small tool to look up and transpose piano chords, built with Haskell.
 
-## Getting Started
+## Setup
 
 Set-up a Haskell development environment. On macOS:
 
@@ -17,6 +17,18 @@ To generate a `.cabal` file and build the backend, run:
 Then run the tests:
 
     stack test
+
+## Run with Docker
+
+Build the Docker image:
+
+    docker build -t chords .
+
+Then start a container:
+
+    docker run -p 8080:8080 chords:latest
+
+## Start the Backend
 
 To run the backend on `localhost:8080`:
 
