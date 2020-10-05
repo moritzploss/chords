@@ -29,6 +29,7 @@ dependencies:
 - Spock
 - aeson
 - text
+- http-types
 
 library:
   source-dirs: src
