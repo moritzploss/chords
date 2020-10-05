@@ -9,7 +9,6 @@ COPY Setup.hs Setup.hs
 RUN stack setup
 
 COPY app/ app/
-COPY data/ data/
 COPY test/ test/
 COPY src/ src/
 COPY README.md README.md
