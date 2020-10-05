@@ -1,10 +1,10 @@
 module Lib.Types
-  ( Factor (..),
-    ChordPattern (..),
-    PitchClass (..),
-    Interval (..),
-    Note (..),
-    NoteName (..),
+  ( Factor,
+    ChordPattern,
+    PitchClass,
+    Interval,
+    Note,
+    NoteName,
   )
 where
 

@@ -25,7 +25,7 @@ To run the backend on `localhost:8080`:
 
 Then send a `post` request to the `localhost:8080/chords` endpoint, including a
 JSON body that contains a chord name (string) and the interval by which to
-transpose the chord (integer):
+transpose the chord (integer, optional):
 
 ```javascript
 {
