@@ -26,6 +26,9 @@ handleError err = do
 
 post = do
   body <- jsonBody' :: ApiAction JsonBody
-  json $ case transpose body of
-    Just pitch -> Lib.transpose pitch <$> (Lib.parse $ chord body)
-    Nothing -> Lib.parse $ chord body
+  case Lib.parse $ chord body of
+    Just parsedChord ->
+      json $ case transpose body of
+        Nothing -> parsedChord
+        Just pitch -> Lib.transpose pitch parsedChord
+    Nothing -> handleError $ "Could not parse chord '" ++ chord body ++ "'"
