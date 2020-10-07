@@ -35,9 +35,9 @@ To run the backend on `localhost:8080`:
     stack build --copy-bins
     chords-exe
 
-Then send a `post` request to the `localhost:8080/chords` endpoint, including a
-JSON body that contains a chord name (string) and the interval by which to
-transpose the chord (integer, optional):
+Then send a `post` request to the `localhost:8080/api/v1/chords` endpoint,
+including a JSON body that contains a chord name (string) and the interval by
+which to transpose the chord (integer, optional):
 
 ```javascript
 {
