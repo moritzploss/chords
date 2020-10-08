@@ -1,4 +1,4 @@
-module Spec.Parse (spec) where
+module Spec.ParseSpec (spec) where
 
 import Control.Applicative
 import Data.Maybe (fromJust, isNothing)

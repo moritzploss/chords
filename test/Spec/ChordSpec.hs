@@ -1,4 +1,4 @@
-module Spec.Chord (spec) where
+module Spec.ChordSpec (spec) where
 
 import Control.Applicative
 import Lib.Chord (create, transpose)

@@ -1,4 +1,4 @@
-module Spec.Catalogue (spec) where
+module Spec.CatalogueSpec (spec) where
 
 import Control.Applicative
 import Lib.Catalogue
