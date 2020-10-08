@@ -18,17 +18,7 @@ Then run the tests:
 
     stack test
 
-## Run with Docker
-
-Build the Docker image:
-
-    docker build -t chords .
-
-Then start a container:
-
-    docker run -p 8080:8080 chords:latest
-
-## Start the Backend
+## Run with Stack
 
 To run the backend on `localhost:8080`:
 
@@ -45,3 +35,14 @@ which to transpose the chord (integer, optional):
     "transpose": 4
 }
 ```
+
+## Run with Docker
+
+Alternatively, set-up and run `stack` in a Docker container. First build the
+image:
+
+    docker build -t chords .
+
+Then start a container:
+
+    docker run -p 8080:8080 chords:latest
