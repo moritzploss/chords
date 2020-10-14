@@ -1,5 +1,8 @@
-FROM haskell
+FROM haskell:8.8.3 AS build
 WORKDIR /usr/src/app
+
+RUN apt update
+RUN apt install libpcre3-dev -y
 
 COPY package.yaml package.yaml
 COPY stack.yaml stack.yaml
@@ -16,5 +19,9 @@ COPY ChangeLog.md ChangeLog.md
 
 RUN stack build --copy-bins
 
+FROM debian
+
+COPY --from=build /root/.local/bin/chords-exe /usr/local/bin/chords-exe
+
 EXPOSE 8080
-CMD [ "chords-exe"]
+CMD ["chords-exe"]
