@@ -1,14 +1,8 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-
 module App where
 
 import qualified App.Router as Router
-import GHC.Generics
-import qualified Lib
-import Web.Spock
-import Web.Spock.Config
+import Web.Spock (SpockM, runSpock, spock)
+import Web.Spock.Config (PoolOrConn(PCNoDatabase), defaultSpockCfg)
 
 type Api = SpockM () () () ()
 
